@@ -1,0 +1,9 @@
+*.tfvars
+*.tfstate
+*.tfstate.*
+.terraform
+kubeconfig*
+.terraform.lock.hcl
+/local
+rancher-cluster.sh
+*.pem
