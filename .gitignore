@@ -7,3 +7,4 @@ kubeconfig*
 /local
 rancher-cluster.sh
 *.pem
+configs/token-values.yaml

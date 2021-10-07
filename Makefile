@@ -49,31 +49,8 @@ kubeconfig: step_02 step_03
 	KUBECONFIG=./kubeconfig_fleet_manager:./kubeconfig_one:./kubeconfig_two:./kubeconfig_three kubectl config view --flatten > ./kubeconfig_all 
 	chmod 600 ./kubeconfig_all
 
-install_fleet: 
-	# First install the Fleet CustomResourcesDefintions.
-	export KUBECONFIG=./kubeconfig_all; \
-	kubectx fleet; \
-	helm -n fleet-system install --create-namespace --wait \
-	fleet-crd https://github.com/rancher/fleet/releases/download/v$(FLEET_VERSION)/fleet-crd-$(FLEET_VERSION).tgz
-
-	#Second install the Fleet controllers.
-	export KUBECONFIG=./kubeconfig_fleet_manager; \
-	kubectl config view -o json --raw | jq -r '.clusters[].cluster["certificate-authority-data"]' | base64 -d > ca.pem; \
-	export API_SERVER_URL=$(kubectl config view -o json --raw | jq -r '.clusters[].cluster["server"]'); \
-	export API_SERVER_CA="ca.pem"; \
-	helm -n fleet-system install --create-namespace --wait \
-	--set apiServerURL="$(API_SERVER_URL)" \
-    --set-file apiServerCA="$(API_SERVER_CA)" \
-	fleet https://github.com/rancher/fleet/releases/p-download/v$(FLEET_VERSION)/fleet-$(FLEET_VERSION).tgz
-
-	# check the logs
-	export KUBECONFIG=./kubeconfig_all; \
-	kubectx fleet; \
-	kubectl -n fleet-system get pods -l app=fleet-controller; \
-	kubectl apply -f configs/fleet-demo-src-repo.yaml; \
-	kubectl apply -f configs/gb-group.yaml; \
-	kubectl apply -f configs/ny-group.yaml; \
-	kubectl apply -f configs/token.yaml; \
+install_fleet: kubeconfig
+	scripts/install_fleet.sh
 
 join_one:  
 	export KUBECONFIG=./kubeconfig_all; \
@@ -98,3 +75,5 @@ join_three:
 	--set-string labels.geo=NY --set-string labels.type=edge \
 	--values configs/token-values.yaml \
 	fleet-agent https://github.com/rancher/fleet/releases/download/v$(FLEET_VERSION)/fleet-agent-$(FLEET_VERSION).tgz
+
+join_fleet: join_one join_two join_three

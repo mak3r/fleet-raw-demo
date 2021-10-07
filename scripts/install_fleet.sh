@@ -26,4 +26,14 @@ kubectl -n fleet-system get pods -l app=fleet-controller
 kubectl apply -f configs/fleet-demo-src-repo.yaml
 kubectl apply -f configs/gb-group.yaml
 kubectl apply -f configs/ny-group.yaml
+
+# create a token
 kubectl apply -f configs/token.yaml
+
+# It seems that it takes a moment for the token to get created before we
+# can pull it back out. Breathe for a moment
+sleep(2)
+
+# dump the required data into token values for downstream cluster joins
+# NOTE: this will overwrite an existing token-values.yaml file
+kubectl -n fleet-local get secret demo-token -o 'jsonpath={.data.values}' | base64 --decode > configs/token-values.yaml

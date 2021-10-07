@@ -88,8 +88,8 @@ spec:
     #  matchLabels:
     #    env: prod
     # A selector used to match cluster groups.
-    clusterGroupSelector:
-      matchLabels:
-        geo: NY
+    # clusterGroupSelector: {}
+      # matchLabels:
+      #   geo: NY
     # A specific clusterGroup by name that will be selected
-    clusterGroup: gb-group
+    # clusterGroup: {} #gb-group
