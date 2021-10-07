@@ -50,9 +50,18 @@ kubeconfig: step_02 step_03
 	chmod 600 ./kubeconfig_all
 
 install_fleet: kubeconfig
-	scripts/install_fleet.sh
+	scripts/install-fleet.sh
+
+add_repository: 
+	# depends on install_fleet target
+	scripts/add-repos.sh
+
+token: 
+	# depends on install_fleet target
+	scripts/generate-token.sh
 
 join_one:  
+	# depends on install_fleet and token targets
 	export KUBECONFIG=./kubeconfig_all; \
 	kubectx one; \
 	helm -n fleet-system install --create-namespace --wait \
@@ -61,6 +70,7 @@ join_one:
 	fleet-agent https://github.com/rancher/fleet/releases/download/v$(FLEET_VERSION)/fleet-agent-$(FLEET_VERSION).tgz
 
 join_two:  
+	# depends on install_fleet and token targets
 	export KUBECONFIG=./kubeconfig_all; \
 	kubectx two; \
 	helm -n fleet-system install --create-namespace --wait \
@@ -69,6 +79,7 @@ join_two:
 	fleet-agent https://github.com/rancher/fleet/releases/download/v$(FLEET_VERSION)/fleet-agent-$(FLEET_VERSION).tgz
 
 join_three:  
+	# depends on install_fleet and token targets
 	export KUBECONFIG=./kubeconfig_all; \
 	kubectx three; \
 	helm -n fleet-system install --create-namespace --wait \
