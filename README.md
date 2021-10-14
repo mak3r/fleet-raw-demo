@@ -20,24 +20,29 @@
 
 ## Demo Process
 
-1. **Explain Demo Architecture**
+1. Slide 1 (pptx)
 
-	`kubectx`
+1. **Explain Demo Architecture** (terminal)
+
+	`kubectx` 
 	
-1. Explain Fleet Manager and Fleet Agent
-1. **Show GitRepo yaml Configuration**
+1. Explain Fleet Manager and Fleet Agent (browser)
+
+1. **Show GitRepo yaml Configuration** (terminal)
 
 	```
 	ls configs
 	cat configs/fleet-demo-src-repo.yaml
 	```
 	
-1. Show Source Code for `fleet-demo-src` and Explain
-1. **Create GitRepo which targets all clusters**
+1. Show Source Code for `fleet-demo-src` and Explain (VS Code)
+
+
+1. **Create GitRepo which targets all clusters** (terminal)
 
     `kubectl apply -f configs/fleet-demo-src-repo.yaml`
 
-1. **Show the git repo resource**
+1. **Show the git repo resource** 
 
 	```
 	kubectl get crds
@@ -45,7 +50,7 @@
 	kubectl describe crd -n fleet-local demo-src
 	```
 	
-1. **Show ClusterGroup yaml Configuration**
+1. **Show ClusterGroup yaml Configuration** 
 
 	`cat configs/gb-group.yaml`
 	
@@ -56,9 +61,9 @@
     kubectl apply -f configs/ny-group.yaml
     ```
     
-1. Show and Explain Makefile Downstream Cluster Commands
+1. Show and Explain Makefile Downstream Cluster Commands (VS Code)
 
-1. **Create the token for agents to join**
+1. **Create the token for agents to join** (terminal)
 
 	```
 	kubectl apply -f configs/token.yaml
@@ -69,6 +74,9 @@
 
 	`make join_fleet`
 	
-1. Visit the url of each application
-1. Make a change to the source code and commit it to the git repo
-1. Watch the url of each application for changes
+1. Visit the url of each application (browser)
+
+1. Make a change to the source code and commit it to the git repo (VSCode)
+
+
+1. Watch the url of each application for changes (browser)
