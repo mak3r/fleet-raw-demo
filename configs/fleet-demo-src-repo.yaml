@@ -9,7 +9,7 @@ spec:
   paths:
   - live/hello-world
   targets:
-  - name: "All clusters"
+  - name: "AllClusters"
     # note the clusterSelector syntax to match all clusters
     # in this example, it even includes the cluster which is 
     # hosting the fleet manager
